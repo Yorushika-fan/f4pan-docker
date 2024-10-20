@@ -10,7 +10,7 @@ on:
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-  IMAGE_NAME: Yorushika/f4pan
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/f4pan
 
 jobs:
   build-and-push:
@@ -36,3 +36,9 @@ jobs:
           tags: |
             ${{ env.IMAGE_NAME }}:latest
             ${{ env.IMAGE_NAME }}:${{ github.sha }}
+      
+      - name: 检查镜像推送结果
+        run: |
+          echo "镜像已成功推送到 Docker Hub"
+          echo "镜像名称: ${{ env.IMAGE_NAME }}"
+          echo "标签: latest, ${{ github.sha }}"
