@@ -1,0 +1,45 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: f4pan_app
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    networks:
+      - f4pan_network
+    depends_on:
+      - mysql
+      - redis
+
+  mysql:
+    image: mysql:8.0
+    container_name: f4pan_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: f4pan
+      MYSQL_ROOT_PASSWORD: your_root_password
+      MYSQL_PASSWORD: your_password
+      MYSQL_USER: your_username
+    volumes:
+      - f4pan_mysql_data:/var/lib/mysql
+    networks:
+      - f4pan_network
+
+  redis:
+    image: redis:latest
+    container_name: f4pan_redis
+    restart: unless-stopped
+    volumes:
+      - f4pan_redis_data:/data
+    networks:
+      - f4pan_network
+
+networks:
+  f4pan_network:
+    driver: bridge
+
+volumes:
+  f4pan_mysql_data:
+  f4pan_redis_data:

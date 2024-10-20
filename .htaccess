@@ -1,0 +1,16 @@
+# 启用重写引擎
+RewriteEngine On
+
+# 拒绝访问 /runtime 和 /application 路径
+RewriteRule ^(runtime|application) - [F,L]
+
+# 重写规则，将 /api 路径重写为 /index.php?s=路径
+RewriteRule ^api(.*)$ /index.php?s=api$1 [QSA,PT,L]
+
+# 尝试加载 URI，若不存在则加载 index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.html [L]
+
+# 设置默认文档
+DirectoryIndex index.html
