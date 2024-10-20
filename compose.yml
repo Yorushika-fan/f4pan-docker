@@ -1,8 +1,6 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: yorushikafan/f4pan
     container_name: f4pan_app
     restart: unless-stopped
     ports:
